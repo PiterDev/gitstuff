@@ -5,4 +5,4 @@
 	let { data }: { data: PageData } = $props()
 </script>
 
-<RepoCard repoName={data.repoName} repoDesc={data.repoDesc} />
+<RepoCard />
