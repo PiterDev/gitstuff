@@ -64,6 +64,8 @@
 	}
 
 	.border-container {
+		margin: 2rem 0;
+
 		min-height: inherit;
 		width: min(100%, 25rem);
 
@@ -163,7 +165,7 @@
 
 		.border-container {
 			width: min(100%, 50rem);
-			margin: 2rem 0;
+
 			.main-box {
 				min-height: auto;
 				justify-content: start;
@@ -183,6 +185,20 @@
 					padding-bottom: 2rem;
 				}
 			}
+		}
+	}
+
+	@media (max-height: 900px), (max-width: 300px) {
+		.border-container {
+			margin: 2rem 0;
+		}
+		.main-box {
+			justify-content: start;
+			gap: 4rem;
+		}
+
+		.links {
+			padding-bottom: 2rem;
 		}
 	}
 </style>
