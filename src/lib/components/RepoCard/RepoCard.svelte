@@ -64,7 +64,7 @@
 	}
 
 	.border-container {
-		margin: 2rem 0;
+		margin: 0.1rem 0;
 
 		min-height: inherit;
 		width: min(100%, 25rem);
@@ -165,6 +165,7 @@
 
 		.border-container {
 			width: min(100%, 50rem);
+			margin: 2rem 0;
 
 			.main-box {
 				min-height: auto;
