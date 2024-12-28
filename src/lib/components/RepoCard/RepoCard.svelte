@@ -9,7 +9,8 @@
 	import CalendarIcon from '$lib/assets/CalendarIcon.svelte'
 	import VoteButton from './VoteButton/VoteButton.svelte'
 
-	let { name, description, icon, issues, last_commit }: RepoData = $props()
+	let { name, description, icon, issues, stars, watchers, last_commit, vote_count }: RepoData =
+		$props()
 </script>
 
 <div class="size-container">
@@ -17,24 +18,29 @@
 		<div class="repo-info gray-gradient">Repo Info</div>
 
 		<div class="main-box">
-			<h1>Django</h1>
+			<h1>{name}</h1>
 			<div class="icon-desc-container">
-				<img src="https://avatars.githubusercontent.com/u/27804?v=4" alt="Django logo" />
+				<img src={icon} alt="Django logo" />
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed lacus neque.
-					Suspendisse vel feugiat ipsum, at aliquet dolor. Phasellus a mi interdum, efficitur nisi
-					et, scelerisque nibh. Cras eget sapien maximus, tempus risus in, molestie velit. Nulla
-					sodales malesuada nisl, dignissim tristique neque condimentum sed. Vivamus at nisi mauris.
+					{description}
 				</p>
 			</div>
 			<div class="hsep"></div>
 			<div class="stats-container">
 				<h2>Repo Stats</h2>
 				<div class="stats-list">
-					<IconTextValue ImgComponent={Issue} key="Issues" value="123" />
-					<IconTextValue ImgComponent={Star} key="Stars" value="123" />
-					<IconTextValue ImgComponent={Eye} key="Watchers" value="123" />
-					<IconTextValue ImgComponent={CalendarIcon} key="Last Commit" value="1 January 2023" />
+					<IconTextValue ImgComponent={Issue} key="Issues" value={issues.toString()} />
+					<IconTextValue ImgComponent={Star} key="Stars" value={stars.toString()} />
+					<IconTextValue ImgComponent={Eye} key="Watchers" value={watchers.toString()} />
+					<IconTextValue
+						ImgComponent={CalendarIcon}
+						key="Last Commit"
+						value={last_commit.toLocaleDateString('en-US', {
+							month: 'long',
+							day: 'numeric',
+							year: 'numeric'
+						})}
+					/>
 				</div>
 			</div>
 			<div class="hsep"></div>
@@ -42,12 +48,12 @@
 				<h2>Repo Votes</h2>
 				<div class="vote-counter">
 					<VoteButton />
-					<p>123</p>
+					<p>{vote_count}</p>
 				</div>
 			</div>
 			<div class="links">
-				<a href="">View on Github</a>
-				<a>Visit Website</a>
+				<a href="google.com">View on Github</a>
+				<a href="google.com">Visit Website</a>
 			</div>
 		</div>
 	</div>

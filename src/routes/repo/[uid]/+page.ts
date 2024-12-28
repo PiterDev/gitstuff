@@ -4,11 +4,14 @@ import type { PageLoad } from './$types'
 export const load: PageLoad = ({ params }) => {
 	if (params.uid === 'django') {
 		return {
-			name: 'Django',
-			desc: "it's django",
+			name: 'django',
+			description: "it's django",
 			icon: 'https://avatars.githubusercontent.com/u/27804?v=4',
 			issues: 296,
-			last_commit: new Date('2024-12-20T13:18:10Z')
+			stars: 123,
+			watchers: 123,
+			last_commit: new Date('2024-12-20T13:18:10Z'),
+			vote_count: 123
 		}
 	}
 	// else {
