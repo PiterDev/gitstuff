@@ -14,8 +14,8 @@
 
 <div class="icon-text-value">
 	<ImgComponent height={24} />
-	<p>{key}:</p>
-	<p>{value}</p>
+	<p class="key">{key}:</p>
+	<p class="value">{value}</p>
 </div>
 
 <style lang="scss">
@@ -25,5 +25,13 @@
 		align-items: center;
 		gap: 0.5rem;
 		font-size: 1rem;
+	}
+
+	.value {
+		color: $text-light;
+	}
+
+	.key {
+		color: $text-dark;
 	}
 </style>

@@ -54,13 +54,12 @@
 </div>
 
 <style lang="scss">
-	.gray-gradient {
-	}
 	.size-container {
 		min-width: 100vw;
 		min-height: calc(100vh - 4rem);
 		display: flex;
 		justify-content: center;
+		// background: $test-var;
 	}
 
 	.border-container {
@@ -83,6 +82,7 @@
 
 		background: rgb(0, 0, 0);
 		background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgb(8, 8, 8) 100%);
+		color: $text-darker;
 	}
 
 	.main-box {
@@ -114,6 +114,7 @@
 			}
 			p {
 				font-size: 1rem;
+				color: $text-dark;
 			}
 		}
 		.stats-container {
@@ -121,6 +122,8 @@
 			flex-direction: column;
 			align-items: center;
 			gap: 1rem;
+
+			color: $text-dark;
 
 			.stats-list {
 				display: flex;
