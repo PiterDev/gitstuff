@@ -1,17 +1,8 @@
-from django.shortcuts import render
-from .models import Post
-from .serializers import PostSerializer
-from .utils.github_api import GitHubAPI
-from django.http import JsonResponse
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
 
-def fetch_repo_info(request):
-    token = "nuh uh"  # Ideally, load from environment variables
-    github = GitHubAPI(token)
-    
-    # Example input
-    owner = "django"
-    repo_name = "django"
-    
-    data = github.get_repo_info(owner, repo_name)
-    return JsonResponse(data)
-
+class GitHubLogin(SocialLoginView):
+    adapter_class = GitHubOAuth2Adapter
+    callback_url = "http://localhost:8000/accounts/github/login/callback/"
+    client_class = OAuth2Client
