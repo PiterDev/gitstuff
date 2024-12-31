@@ -5,8 +5,6 @@ from .models import Post
 from .serializers import PostSerializer
 from rest_framework.views import APIView
 # from .utils.github_api import GitHubAPI
-from allauth.socialaccount.models import SocialToken
-
 from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.decorators import login_required
@@ -38,16 +36,8 @@ class PostRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 @login_required
 def github_proxy(request):
-    github_api_url = "https://api.github.com/user/repos/django"
-
-
-    # token = request.user.socialaccount_set.filter(provider='github')[0].socialtoken.token # Extract first oauth token
-
-    try:
-        token = SocialToken.objects.get(account__user=request.user, account__provider='github').token
-    except SocialToken.DoesNotExist:
-        return JsonResponse({"error": "GitHub token not found"}, status=403)
-
+    github_api_url = config("GITHUB_API_URL")
+    token = request.user.socialaccount_set.filter(provider='github')[0].socialtoken.token # Extract first oauth token
     headers = {"Authorization": f"token {token}"}
     response = requests.get(github_api_url, headers=headers)
     return JsonResponse(response.json(), safe=False)

@@ -120,8 +120,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': config("GH_CLIENT_ID"),
             'secret': config("GH_CLIENT_SECRET"),
             'key': ''
-        },
-        'SCOPE': ['read:user', 'repo'],
+        }
     }
 }
 
