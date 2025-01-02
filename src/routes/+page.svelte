@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { passive } from 'svelte/legacy'
-
+	import { githubRedirect } from '$lib/util/githubAuth'
 	let authenticated = $state(false)
 </script>
 
 <div class="bg-gradient">
 	{#if authenticated}
-		<p>Authenticated successfully.</p>
-		<br />
-		<p>Try navigating to /repo/name-of-repo</p>
+		<div class="info">
+			<p>Authenticated successfully.</p>
+			<p>Try navigating to /repo/name-of-repo.</p>
+		</div>
 		<button> Try it out!</button>
 	{:else}
-		<button>Log in with GitHub</button>
+		<button onclick={githubRedirect}>Log in with GitHub</button>
 	{/if}
 </div>
 
@@ -19,10 +19,21 @@
 	.bg-gradient {
 		min-height: 100vh;
 		min-width: 100vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 1rem;
+
+		font-size: 1.5rem;
 
 		background: rgb(0, 0, 0);
 		background: linear-gradient(135deg, #000 0%, #15171d 70%, #21242b 100%);
 		color: $text-darker;
+	}
+
+	.info {
+		text-align: center;
 	}
 
 	button {
