@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "oauth2_provider",
     "api",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,9 +140,17 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# CORS
+# DELETE IN PRODUCTION
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Authentication
-AUTHENTICATION_BACKENDS = ("allauth.account.auth_backends.AuthenticationBackend",)
-REST_USE_JWT = True 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+# REST_USE_JWT = True 
 SITE_ID = 1
 
 SITE_ID = 1
@@ -155,7 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": os.environ["GH_CLIENT_ID"], 
             "secret": os.environ["GH_CLIENT_SECRET"],
             "key": "",
-            "redirect_uri": "http://localhost:8000/accounts/github/login/callback/",
+            "redirect_uri": "http://localhost:5173/auth/github/callback/",
         }
     }
 }
