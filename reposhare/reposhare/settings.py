@@ -166,6 +166,9 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": os.environ["GH_CLIENT_SECRET"],
             "key": "",
             "redirect_uri": "http://localhost:5173/auth/github/callback/",
-        }
+        },
+        'SCOPE': ['repo', 'user'],
     }
 }
+
+SOCIALACCOUNT_STORE_TOKENS = True
