@@ -7,7 +7,6 @@ export const GET = async ({ url, fetch, cookies }) => {
 	if (!code) {
 		return new Response('Missing code', { status: 400 })
 	}
-
 	const response = await fetch('http://127.0.0.1:8000/auth/github/', {
 		method: 'POST',
 		headers: {
@@ -20,7 +19,8 @@ export const GET = async ({ url, fetch, cookies }) => {
 		return new Response('Failed to authenticate', { status: response.status })
 	}
 
-	const data = await response.json() // Probably JWT here, we don't really care
+	const data = await response.json()
+	//  FIX: fix JWT on backend
 	cookies.set('token', data.token, {
 		path: '/',
 		secure: !dev,
