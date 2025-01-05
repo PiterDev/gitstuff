@@ -39,17 +39,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
-    'rest_framework',
-    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api'
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',   
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -67,7 +64,9 @@ ROOT_URLCONF = 'reposhare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = ('static',)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -137,9 +137,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth
 
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-)
+]
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -149,7 +150,14 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SOCIAL_AUTH_GITHUB_KEY = os.environ('GH_CLIENT_ID')
-SOCIAL_AUTH_GITHUB_SECRET = os.environ('GH_CLIENT_SECRET')
+LOGIN_REDIRECT_URL = '/'  # or any other URL
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+
+SOCIAL_AUTH_GITHUB_KEY = os.environ['GH_CLIENT_ID']
+SOCIAL_AUTH_GITHUB_SECRET = os.environ['GH_CLIENT_SECRET']
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_ONLY = True
+SOCIALACCOUNT_STORE_TOKENS = True
 
 SITE_ID = 1

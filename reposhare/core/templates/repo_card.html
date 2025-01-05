@@ -1,0 +1,67 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'core/repo_card.css' %}" />
+{% endblock %}
+<pre>
+   {{ repo_info }}
+</pre>
+
+<div class="size-container">
+  <div class="border-container">
+    <div class="repo-info gray-gradient">Repo Info</div>
+
+    <div class="main-box">
+      <h1>{{ repo_info.name }}</h1>
+      <div class="icon-desc-container">
+        <img
+          src="{{ repo_info.owner.avatar_url }}"
+          alt="{{ repo_info.name }} logo"
+        />
+        <p>{{ repo_info.description }}</p>
+      </div>
+      <div class="hsep"></div>
+      <div class="stats-container">
+        <h2>Repo Stats</h2>
+        {% comment %}
+        <div class="stats-list">
+          <IconTextValue
+            ImgComponent="{Issue}"
+            key="Issues"
+            value="{issues.toString()}"
+          />
+          <IconTextValue
+            ImgComponent="{Star}"
+            key="Stars"
+            value="{stars.toString()}"
+          />
+          <IconTextValue
+            ImgComponent="{Eye}"
+            key="Watchers"
+            value="{watchers.toString()}"
+          />
+          <IconTextValue ImgComponent={CalendarIcon} key="Last Commit"
+          value={last_commit.toLocaleDateString('en-US', { month: 'long', day:
+          'numeric', year: 'numeric' })} />
+        </div>
+        {% endcomment %}
+      </div>
+      <div class="hsep"></div>
+      <div class="vote-container">
+        <h2>Repo Votes</h2>
+        <div class="vote-counter">
+          <VoteButton />
+          <p>420</p>
+        </div>
+      </div>
+      <div class="links">
+        <a href="google.com">View on Github</a>
+        <a href="google.com">Visit Website</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
