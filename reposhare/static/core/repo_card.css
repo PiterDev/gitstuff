@@ -139,3 +139,19 @@
     padding-bottom: 2rem;
   }
 }
+
+.icon-text-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.value {
+  color: var(--text-light);
+}
+
+.key {
+  color: var(--text-dark);
+}

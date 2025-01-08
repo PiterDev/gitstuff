@@ -1,15 +1,23 @@
 <!-- prettier-ignore -->
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'core/repo_card.css' %}" />
-{% endblock %}
-<pre>
-   {{ repo_info }}
-</pre>
+{% endblock %} 
+{% block content %}
+<nav>
+  <div class="left">
+    <span class="repo-gradient"
+      ><a class="repo-gradient">Reposhare</a></span
+    >
+    <a>About</a>
+    <a>View Repo</a>
+  </div>
 
+  <div class="right"><a href="">Account</a></div>
+</nav>
 <div class="size-container">
   <div class="border-container">
     <div class="repo-info gray-gradient">Repo Info</div>
@@ -26,28 +34,50 @@
       <div class="hsep"></div>
       <div class="stats-container">
         <h2>Repo Stats</h2>
-        {% comment %}
         <div class="stats-list">
+          <div class="icon-text-value">
+            {% comment %} <ImgComponent height="{24}" /> {% endcomment %}
+            <img
+              src="{% static 'icons/issue.svg' %}"
+              alt="Issues icon"
+              height="24"
+              color="#fff"
+            />
+            <p class="key">Issues:</p>
+            <p class="value">32</p>
+          </div>
+          <div class="icon-text-value">
+            <img
+              src="{% static 'icons/star.svg' %}"
+              alt="Issues icon"
+              height="24"
+              color="#fff"
+            />
+            <p class="key">Stars:</p>
+            <p class="value">32</p>
+          </div>
+          <div class="icon-text-value">
+            <img
+              src="{% static 'icons/eye.svg' %}"
+              alt="Issues icon"
+              height="24"
+              color="#fff"
+            />
+            <p class="key">Watchers:</p>
+            <p class="value">32</p>
+          </div>
+
+          {% comment %}
           <IconTextValue
             ImgComponent="{Issue}"
             key="Issues"
             value="{issues.toString()}"
           />
-          <IconTextValue
-            ImgComponent="{Star}"
-            key="Stars"
-            value="{stars.toString()}"
-          />
-          <IconTextValue
-            ImgComponent="{Eye}"
-            key="Watchers"
-            value="{watchers.toString()}"
-          />
-          <IconTextValue ImgComponent={CalendarIcon} key="Last Commit"
+          {% endcomment %} {% comment %} <IconTextValue
+          ImgComponent={CalendarIcon} key="Last Commit"
           value={last_commit.toLocaleDateString('en-US', { month: 'long', day:
-          'numeric', year: 'numeric' })} />
+          'numeric', year: 'numeric' })} /> {% endcomment %}
         </div>
-        {% endcomment %}
       </div>
       <div class="hsep"></div>
       <div class="vote-container">

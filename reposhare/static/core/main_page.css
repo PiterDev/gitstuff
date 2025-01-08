@@ -1,0 +1,28 @@
+.bg-gradient {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+
+  font-size: 1.5rem;
+
+  background: rgb(0, 0, 0);
+  background: linear-gradient(135deg, #000 0%, #15171d 70%, #21242b 100%);
+  color: var(--text-darker);
+}
+
+.info {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  background-color: white;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  color: #000;
+  /* // drop shadow 10% white x 4 y 4 blur 4px */
+}

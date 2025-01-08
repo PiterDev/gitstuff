@@ -1,0 +1,29 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %} 
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}Reposhare{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'core/main_page.css' %}" />
+{% endblock %}
+
+{% block content %} 
+
+<div class="bg-gradient">
+    {% if user.is_authenticated %}
+    
+    <p class="info">You're logged in as: {{ user.username }}</p>
+    <div class="buttons">
+        <a href="/repo/django/django">Try it out!</a>
+        <a href="{% url 'account_logout' %}" class="btn btn-primary">Log out</a>
+    </div>
+    
+    {% else %}
+    
+    <a href="{% provider_login_url "github" process="login" method="oauth2" %}">Log in with GitHub</a>
+    
+    
+    {% endif %} {% endblock %}
+</div>
