@@ -1,3 +1,10 @@
+.pos-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 .bg-gradient {
   min-height: 100vh;
   min-width: 100vw;
@@ -9,7 +16,7 @@
 
   font-size: 1.5rem;
 
-  background: rgb(0, 0, 0);
+  background: #000000;
   background: linear-gradient(135deg, #000 0%, #15171d 70%, #21242b 100%);
   color: var(--text-darker);
 }
@@ -18,7 +25,7 @@
   text-align: center;
 }
 
-a {
+a.fake-btn {
   text-decoration: none;
   background-color: white;
   padding: 1rem 2rem;

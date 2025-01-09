@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from allauth.socialaccount.models import SocialToken
 from django.contrib.auth.decorators import login_required
+from .models import Repo, Upvote
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 import requests
 
 def get_repo_info(owner, repo, token):
@@ -29,14 +32,35 @@ def repo(request, owner, repo):
     
     repo_info = get_repo_info(owner, repo, token)
 
+    # upvoted = Upvote.objects.filter(repo__owner=owner, repo__name=repo, user=request.user).exists()
+    repo_obj, created = Repo.objects.get_or_create(owner=owner, name=repo)
+    is_upvoted = Upvote.objects.filter(user=request.user, repo=repo_obj).exists()
+    print(repo_obj.name) # false should be true
+    upvotes = repo_obj.upvote_set.count()
+
+
     if repo_info:
-        return render(request, 'repo_card.html', {'repo_info': repo_info})
+        return render(request, 'repo_card.html', {'repo_info': repo_info, 'upvoted': is_upvoted, 'upvotes': upvotes})
     else:
         return render(request, 'error.html', {'error': 'Failed to fetch repository information.'})
 
 def main_page(request):
-    
     return render(request, 'main_page.html', {'user': request.user})
 
 def github_login(request):
     return render(request, 'github_login.html')
+
+@login_required
+def toggle_upvote(request, repo_owner, repo_name):
+    repo, _ = Repo.objects.get_or_create(owner=repo_owner, name=repo_name)
+    upvote, created = Upvote.objects.get_or_create(user=request.user, repo=repo)
+    print(repo_owner, repo_name)
+
+    if not created:
+        upvote.delete()
+        # remove vote from repo
+        upvote_amount = repo.upvote_set.count()
+        return JsonResponse({'status': 'downvoted', 'upvotes': upvote_amount})
+    else:
+        upvote_amount = repo.upvote_set.count()
+        return JsonResponse({'status': 'upvoted', 'upvotes': upvote_amount})

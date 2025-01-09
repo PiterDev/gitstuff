@@ -5,19 +5,46 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'core/repo_card.css' %}" />
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function() {
+    const upvoteBtn = document.querySelector('.upvote-btn');
+    upvoteBtn.addEventListener('click', async function(e) {
+      console.log("HELLO WORLD");
+      e.preventDefault();
+      const repoOwner = "{{ repo_info.owner.login }}";
+      const repoName = "{{ repo_info.name }}";
+      const url = `/toggle_upvote/${repoOwner}/${repoName}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+
+        },
+      })
+
+      const data = await response.json();
+      if (response.ok) {
+        if (data.status === 'upvoted') {
+          console.log("voted success");
+          upvoteBtn.querySelector('img').src = '{% static 'icons/uparrow-filled.svg' %}';
+        } else {
+          console.log("voted down");
+          upvoteBtn.querySelector('img').src = '{% static 'icons/uparrow-hollow.svg' %}';
+        }
+      }
+      console.log(data.upvotes);
+      document.querySelector('.upvote-counter').innerText = data.upvotes;
+    });
+  });
+
+</script>
+
 {% endblock %} 
 {% block content %}
-<nav>
-  <div class="left">
-    <span class="repo-gradient"
-      ><a class="repo-gradient">Reposhare</a></span
-    >
-    <a>About</a>
-    <a>View Repo</a>
-  </div>
 
-  <div class="right"><a href="">Account</a></div>
-</nav>
+{% include 'navbar.html' %}
+
 <div class="size-container">
   <div class="border-container">
     <div class="repo-info gray-gradient">Repo Info</div>
@@ -87,13 +114,19 @@
         <h2>Repo Votes</h2>
         <div class="vote-counter">
           <form action="">
-            <button type="submit">
+
+
+            <button class="upvote-btn" >
+              {% if upvoted %}
+              <img src="{% static 'icons/uparrow-filled.svg' %}" height="24" color="#fff" alt="Up arrow">
+              {% else %}
               <img src="{% static 'icons/uparrow-hollow.svg' %}" height="24" color="#fff" alt="Up arrow">
+              {% endif %}
             </button>
 
             
           </form>
-          <p>420</p>
+          <p class="upvote-counter">{{ upvotes }}</p>
         </div>
       </div>
       <div class="links">
