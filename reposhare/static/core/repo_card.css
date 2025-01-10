@@ -21,7 +21,7 @@
   padding: 0.5rem;
   border-radius: 1rem 1rem 0 0;
   background: black;
-  background: linear-gradient(180deg, black 0%, #080808 100%);
+  background: linear-gradient(180deg, black 0%, #131313 100%);
   color: #878787;
 }
 
@@ -164,9 +164,14 @@ button {
   border: none;
 }
 
-button[type="submit"] {
+.upvote-btn {
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.upvote-btn:active {
+  transform: scale(0.9);
+  transition: ease-in-out 0.1s;
 }

@@ -19,7 +19,6 @@
         method: 'POST',
         headers: {
           'X-CSRFToken': '{{ csrf_token }}',
-
         },
       })
 
@@ -56,7 +55,13 @@
           src="{{ repo_info.owner.avatar_url }}"
           alt="{{ repo_info.name }} logo"
         />
-        <p>{{ repo_info.description }}</p>
+        <p>
+          {% if repo.description is not None %}
+            {{repo.description}}
+          {% else %}
+            No description
+          {% endif %}
+        </p>
       </div>
       <div class="hsep"></div>
       <div class="stats-container">
@@ -94,19 +99,6 @@
             <p class="key">Watchers:</p>
             <p class="value">{{ repo_info.watchers_count }}</p>
           </div>
-
-
-
-          <!-- {% comment %}
-          <IconTextValue
-            ImgComponent="{Issue}"
-            key="Issues"
-            value="{issues.toString()}"
-          />
-          {% endcomment %} {% comment %} <IconTextValue
-          ImgComponent={CalendarIcon} key="Last Commit"
-          value={last_commit.toLocaleDateString('en-US', { month: 'long', day:
-          'numeric', year: 'numeric' })} /> {% endcomment %} -->
         </div>
       </div>
       <div class="hsep"></div>
@@ -130,8 +122,10 @@
         </div>
       </div>
       <div class="links">
-        <a href="google.com">View on Github</a>
-        <a href="google.com">Visit Website</a>
+        <a href="https://github.com/octocat/{{repo_info.full_name}}">View on Github {{repo_info.repos_url}}</a>
+        {% if repo_info.homepage is not None %}
+          <a href="{{repo_info.homepage}}">Visit Website</a>
+        {% endif %}
       </div>
     </div>
   </div>
