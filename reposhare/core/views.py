@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from allauth.socialaccount.models import SocialToken
 from django.contrib.auth.decorators import login_required
-from .models import Repo, Upvote
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+
+from .models import Repo, Upvote
+from .forms import ChooseRepoForm
+
 import requests
+
 
 def get_repo_info(owner, repo, token):
     github_api_url = f'https://api.github.com/repos/{owner}/{repo}'
     headers = {'Authorization': f'token {token}'}
+    print(token)
 
     response = requests.get(github_api_url, headers=headers)
 
@@ -64,3 +69,12 @@ def toggle_upvote(request, repo_owner, repo_name):
     else:
         upvote_amount = repo.upvote_set.count()
         return JsonResponse({'status': 'upvoted', 'upvotes': upvote_amount})
+
+def goto_repo_form(request):
+    if request.method == 'POST':
+        form = ChooseRepoForm(request.POST)
+        if form.is_valid():
+            return redirect('repo', form.cleaned_data['owner'], form.cleaned_data['name'])
+    else:
+        form = ChooseRepoForm()
+    return render(request, 'choose_repo.html', {'form': form})

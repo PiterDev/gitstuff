@@ -23,7 +23,7 @@
     
         <p class="info">You're logged in as: {{ user.username }}</p>
         <div class="buttons">
-            <a class="fake-btn" href="/repo/django/django">Try it out!</a>
+            <a class="fake-btn" href="{% url 'goto_repo_form' %}">Try it out!</a>
             <a class="fake-btn"href="{% url 'account_logout' %}" class="btn btn-primary">Log out</a>
         </div>
     
