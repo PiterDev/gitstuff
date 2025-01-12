@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "core/choose_repo.css" %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+
+    <div class="size-container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="fields-row">
+                {{ form.owner }}
+                <p>/</p>
+                {{ form.name}}
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

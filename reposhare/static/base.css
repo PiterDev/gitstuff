@@ -1,0 +1,35 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px #1e1e1e solid;
+}
+
+.left,
+.right {
+  display: flex;
+  gap: 1rem;
+}
+
+.left a,
+.right a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  nav {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+a.repo-gradient {
+  background: #43cfc8;
+  background: linear-gradient(to right, #43cfc8 0%, #553fcf 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
