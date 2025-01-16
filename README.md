@@ -1,10 +1,12 @@
 # repo-share
 
-A website to share your Git(Hub/Lab) projects on. WIP school project
+RepoShare is a proof-of-concept for a website where users can share and discuss Open-Source projects.
+
+It acts as a proxy to the Github API that connects their data and RepoShare's additional features to a custom frontend.
 
 ## Development
 
-To create a development environment follow the following steps (work in progress):
+To create a development environment follow the steps below (work in progress):
 
 1. Create a virtual environment:
    `python -m venv .venv`
