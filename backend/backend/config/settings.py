@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +31,29 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Auth backends
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        "VERIFIED_EMAIL": True,
+        "APP": {
+            "client_id": os.environ["GH_CLIENT_ID"],
+            "secret": os.environ["GH_CLIENT_SECRET"], 
+        },
+
+        'SCOPE': [
+            'user',
+            'repo',
+        ],
+    }
+}
 
 # Application definition
 
@@ -40,11 +67,15 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'dj_rest_auth',
     'corsheaders',
     
-    'jwt_auth',
+    'gh_auth',
     'api',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 ]
 
 
@@ -57,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.config.urls'
@@ -142,8 +174,9 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication", # Fallback for admin login
+        'allauth.headless.contrib.rest_framework.authentication.XSessionTokenAuthentication', # Since we're going headless for the lovely SvelteKit Framework
+        # "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication", # Fallback for admin page
     ),
 }
 
