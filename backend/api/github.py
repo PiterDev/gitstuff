@@ -38,7 +38,7 @@ class GithubAPI:
         response = requests.get(url, headers=self.headers)
         return response.json()
     
-    def get_repo_issues(self, repo_name):
-        url = f'{self.base_url}/repos/{repo_name}/issues'
+    def get_repo_issues(self, owner, repo_name):
+        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues'
         response = requests.get(url, headers=self.headers)
         return response.json()

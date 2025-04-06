@@ -1,6 +1,7 @@
 <script lang="ts">
 	import TaskList from "$lib/components/TaskList/TaskList.svelte";
-
+    let { data } = $props();
+    
     let testTasks =  [
         {
             name: "Task 1",
@@ -21,6 +22,9 @@
 </script>
 
 <main>
+    <pre>
+        {JSON.stringify(data, null, 2)}
+    </pre>
     <h1>Dashboard</h1>
     <div class="main-box">
         <TaskList tasks={testTasks} />

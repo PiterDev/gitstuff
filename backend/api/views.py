@@ -31,6 +31,8 @@ class RepoIssuesView(APIView):
 
     def get(self, request):
         github = GithubAPI(request.user)
-        repo_name = request.query_params.get('repo_name')
-        data = github.get_repo_issues(repo_name)
+        repo_name = request.query_params.get('repo_name', None)
+        if repo_name is None:
+            return Response(status=400)
+        data = github.get_repo_issues(request.user.username, repo_name)
         return Response(data)
