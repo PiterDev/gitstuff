@@ -174,8 +174,8 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        'allauth.headless.contrib.rest_framework.authentication.XSessionTokenAuthentication', # Since we're going headless for the lovely SvelteKit Framework
-        # "rest_framework.authentication.TokenAuthentication",
+        # "allauth.headless.contrib.rest_framework.authentication.XSessionTokenAuthentication", # Since we're going headless for the lovely SvelteKit Framework
+        "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication", # Fallback for admin page
     ),
 }
