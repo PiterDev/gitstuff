@@ -24,7 +24,7 @@ export const GET = async ({ url, fetch, cookies }) => {
 		path: '/',
 		secure: !dev,
 		httpOnly: true,
-		maxAge: 60 * 60 * 24 * 14 // 2 Weeks
+		maxAge: 60 * 60 * 24 // A Github token is valid for 24 hours
 	});
 
 	throw redirect(301, '/');

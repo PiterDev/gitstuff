@@ -14,7 +14,14 @@ export const load = async ({ fetch, cookies }) => {
 			Authorization: `Token ${token}`
 		}
 	});
+
 	const data = await res.json();
+
+	if (data.status === '401') {
+		// Token expired
+		cookies.delete('token', { path: '/' });
+		throw redirect(302, '/auth/github/login?session_expired=true');
+	}
 
 	return {
 		data: data

@@ -4,33 +4,47 @@
     import HeroiconsOutlineXCircle from '~icons/heroicons-outline/x-circle';
     import HeroiconsOutlineCheckCircle from '~icons/heroicons-outline/check-circle';
     import MdiGithub from '~icons/mdi/github';
+	import CompletedCircle from "./CompletedCircle.svelte";
 
     let { name, done }: Task = $props();
 </script>
 
 <div class="task">
-    <span class="icon">
-        {#if done}
-            <HeroiconsOutlineCheckCircle />
-        {:else}
-            <HeroiconsOutlineXCircle />
-        {/if}
+    <div class="left">
+        <span class="icon">
+            <CompletedCircle done={done} />
+        </span>
+        <p>{name}</p>
+    </div>
 
-    </span>
-    <p>{name}</p>
-
-    <MdiGithub />
+    <div class="right">
+        <MdiGithub />
+    </div>
 </div>
 
 <style lang="scss">
     .task {
         display: flex;
-        justify-content: space-between;
-        padding: 0.5rem;
+        justify-content: start;
+        align-items: center;
         gap: 1rem;
-        cursor: pointer;
+        // cursor: pointer;
         background: #464646;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
 
+        p {
+            vertical-align: center;
+        }
+
+        .left, .right {
+            display: flex;
+            align-items: center;
+        }
+
+        .left {
+            gap: 1rem;
+        }
         .icon {
             display: flex;
             align-items: center;
@@ -42,9 +56,9 @@
         background: rgb(80, 80, 80);
     }
     
-    .task:hover {
-        background: #5d5d5d;
-    }
+    // .task:hover {
+    //     background: #5d5d5d;
+    // }
     
 
 </style>

@@ -1,6 +1,6 @@
 import { BACKEND_API_URL } from '$env/static/private';
 import { redirectIfUnauthorized } from '$lib/util/auth.js';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load = async ({ parent, params, fetch, cookies }) => {
 	const { isAuthorized } = await parent();
@@ -23,7 +23,13 @@ export const load = async ({ parent, params, fetch, cookies }) => {
 		error(404, 'Repo not found');
 	}
 
+	if (data.status === '401') {
+		// Token expired
+		cookies.delete('token', { path: '/' });
+		throw redirect(302, '/auth/github/login?session_expired=true');
+	}
+
 	return {
-		data: data
+		issues: data
 	};
 };

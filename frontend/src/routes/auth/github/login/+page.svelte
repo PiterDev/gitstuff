@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { PUBLIC_GH_CLIENT_ID } from "$env/static/public";
 
+    let { data } = $props();
+    
     const githubAuthUrl = 'https://github.com/login/oauth/authorize';
     const clientId = PUBLIC_GH_CLIENT_ID;
     const scope = 'user repo';
@@ -12,4 +14,7 @@
     }
 </script>
 
-<button on:click={githubRedirect}>Login with GitHub</button>
+{#if data.sessionExpired}
+    <p>Your session has expired. Please login again.</p>
+{/if}
+<button onclick={githubRedirect}>Login with GitHub</button>

@@ -42,3 +42,19 @@ class GithubAPI:
         url = f'{self.base_url}/repos/{owner}/{repo_name}/issues'
         response = requests.get(url, headers=self.headers)
         return response.json()
+    
+    def close_issue(self, owner, repo_name, issue_number):
+        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues/{issue_number}'
+        body = {
+            "state": "closed"
+        }
+        response = requests.patch(url, body, headers=self.headers)
+        return response.status_code == 200
+    
+    def close_issue(self, owner, repo_name, issue_number):
+        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues/{issue_number}'
+        body = {
+            "state": "open"
+        }
+        response = requests.patch(url, body, headers=self.headers)
+        return response.status_code == 200

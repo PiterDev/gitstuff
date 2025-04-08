@@ -36,3 +36,19 @@ class RepoIssuesView(APIView):
             return Response(status=400)
         data = github.get_repo_issues(request.user.username, repo_name)
         return Response(data)
+
+class CloseIssueView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, owner, repo, id):
+        github = GithubAPI(request.user)
+        github.close_issue(owner, repo, id)
+        return Response(status=200)
+
+class OpenIssueView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, owner, repo, id):
+        github = GithubAPI(request.user)
+        github.open_issue(owner, repo, id)
+        return Response(status=200)
