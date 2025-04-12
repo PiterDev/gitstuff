@@ -6,19 +6,56 @@
     import MdiGithub from '~icons/mdi/github';
 	import CompletedCircle from "./CompletedCircle.svelte";
 
-    let { name, done }: Task = $props();
+    let { name, done, url, owner, repo, issue_id, issue_state }: Task = $props();
+    let doneState = $state(done);
+
+    async function onCheck() {
+        doneState = true;
+        // Wait for server to update
+        const response = await fetch(`/api/issue/update`, {
+            method: 'POST',
+            body: JSON.stringify({
+                owner,
+                repo,
+                id: issue_id,
+                state: doneState ? 'closed' : 'open'
+            })
+        });
+
+    }
+
+    async function onUncheck() {
+        doneState = false;
+        // Wait for server to update
+        const response = await fetch(`/api/issue/update`, {
+            method: 'POST',
+            body: JSON.stringify({
+                owner,
+                repo,
+                id: issue_id,
+                state: doneState ? 'closed' : 'open'
+            })
+        });
+
+    }
+
 </script>
 
 <div class="task">
     <div class="left">
         <span class="icon">
-            <CompletedCircle done={done} />
+            <!-- This warning can be ignored, typescript can't tell these are spread props -->
+            <form>
+                <CompletedCircle done={doneState} onCheck={onCheck} onUncheck={onUncheck} />
+            </form>
         </span>
-        <p>{name}</p>
+        <p class={doneState ? "done" : ""}>{name}</p>
     </div>
 
     <div class="right">
-        <MdiGithub />
+        <a href={url} target="_blank" rel="noopener noreferrer">
+            <MdiGithub />
+        </a>
     </div>
 </div>
 
@@ -28,13 +65,16 @@
         justify-content: start;
         align-items: center;
         gap: 1rem;
-        // cursor: pointer;
         background: #464646;
         justify-content: space-between;
         padding: 0.5rem 1rem;
 
         p {
             vertical-align: center;
+        }
+
+        p.done {
+            text-decoration: line-through;
         }
 
         .left, .right {
@@ -54,11 +94,5 @@
 
     .task:nth-of-type(2n+1) {
         background: rgb(80, 80, 80);
-    }
-    
-    // .task:hover {
-    //     background: #5d5d5d;
-    // }
-    
-
+    }  
 </style>

@@ -51,6 +51,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': [
             'user',
             'repo',
+            'issues',
+            'pull_requests',
         ],
     }
 }

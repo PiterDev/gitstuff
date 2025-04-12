@@ -15,7 +15,7 @@ class UserInfoView(APIView):
     def get(self, request):
         github = GithubAPI(request.user)
         data = github.get_user()
-        return Response(data)
+        return Response(data, status=data.get('status', 200))
 
 class RepoView(APIView):
     permission_classes = [IsAuthenticated]
@@ -37,18 +37,35 @@ class RepoIssuesView(APIView):
         data = github.get_repo_issues(request.user.username, repo_name)
         return Response(data)
 
-class CloseIssueView(APIView):
+# class CloseIssueView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def patch(self, request, owner, repo, id):
+#         github = GithubAPI(request.user)
+#         github.close_issue(owner, repo, id)
+#         return Response(status=200)
+
+# class OpenIssueView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def patch(self, request, owner, repo, id):
+#         github = GithubAPI(request.user)
+#         github.open_issue(owner, repo, id)
+#         return Response(status=200)
+    
+class IssueUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request, owner, repo, id):
-        github = GithubAPI(request.user)
-        github.close_issue(owner, repo, id)
-        return Response(status=200)
+    def patch(self, request):
+        owner = request.data.get('owner')
+        repo = request.data.get('repo')
+        id = request.data.get('id')
+        state = request.data.get('state')
 
-class OpenIssueView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def patch(self, request, owner, repo, id):
         github = GithubAPI(request.user)
-        github.open_issue(owner, repo, id)
-        return Response(status=200)
+        success = False
+        if state == 'open':
+             response = github.open_issue(owner, repo, id)
+        else:
+            response = github.close_issue(owner, repo, id)
+        return Response(response, status=200 if success else 500)

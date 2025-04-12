@@ -5,7 +5,7 @@
     
     const githubAuthUrl = 'https://github.com/login/oauth/authorize';
     const clientId = PUBLIC_GH_CLIENT_ID;
-    const scope = 'user repo';
+    const scope = 'user repo issues pull_requests';
     const redirectUri = 'http://localhost:5173/auth/github/callback';
 
     function githubRedirect() {

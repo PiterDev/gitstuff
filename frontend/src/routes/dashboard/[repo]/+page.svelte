@@ -8,12 +8,19 @@
 
     let issuesJson = data.issues;
     issuesJson.forEach((issue: Issue) => {
+        console.log(issue);
         taskArray.push({
             name: issue.title,
             done: false,
             description: issue.body,
+            url: issue.html_url,
+            owner: issue.user.login,
+            repo: data.repo,
+            issue_id: issue.number,
+            issue_state: issue.state,
         });
     });
+
 </script>
 
 <main>

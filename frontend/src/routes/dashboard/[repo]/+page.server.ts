@@ -1,35 +1,21 @@
 import { BACKEND_API_URL } from '$env/static/private';
-import { redirectIfUnauthorized } from '$lib/util/auth.js';
-import { error, redirect } from '@sveltejs/kit';
+import { fetchWithAuth } from '$lib/util/api.js';
 
-export const load = async ({ parent, params, fetch, cookies }) => {
-	const { isAuthorized } = await parent();
-	redirectIfUnauthorized(isAuthorized);
-
+export const load = async ({ params, fetch, cookies }) => {
 	const token = cookies.get('token');
+	const repo = params.repo;
 
-	const { repo } = params;
-	const res = await fetch(BACKEND_API_URL + `api/repo_issues?repo_name=${repo}&format=json`, {
+	const data = await fetchWithAuth({
+		fetch,
+		cookies,
+		endpoint: `${BACKEND_API_URL}api/repo_issues?repo_name=${repo}&format=json`,
 		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`
-		}
+		token,
+		body: null
 	});
 
-	const data = await res.json();
-
-	if (data.status === '404') {
-		error(404, 'Repo not found');
-	}
-
-	if (data.status === '401') {
-		// Token expired
-		cookies.delete('token', { path: '/' });
-		throw redirect(302, '/auth/github/login?session_expired=true');
-	}
-
 	return {
-		issues: data
+		issues: data,
+		repo
 	};
 };

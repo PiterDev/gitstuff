@@ -1,13 +1,18 @@
 <script lang="ts">
     import HeroiconsOutlineXCircle from '~icons/heroicons-outline/x-circle';
     import HeroiconsOutlineCheckCircle from '~icons/heroicons-outline/check-circle';
+	import type { HTMLAttributes } from 'svelte/elements';
+	import type { CompletedCircleProps } from '$lib/types/TaskList';
+    
 
-    let { done }: { done: boolean } = $props();
+
+    let { done, onCheck, onUncheck}: CompletedCircleProps = $props();
 
     function toggle() {
         done = !done;
+        if (done) onCheck();
+        else onUncheck();
     }
-
 </script>
 
 {#if done}
@@ -45,10 +50,6 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-
-        :global(.checked) {
-            color: green;
-        }
     }
 
 
