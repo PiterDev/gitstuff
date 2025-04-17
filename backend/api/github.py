@@ -7,9 +7,11 @@ class GithubAPI:
         if not self.token:
             raise Exception('No token found')
         self.headers = {
-            'Authorization': f'token {self.token}'
+            'Authorization': f'token {self.token}',
+            "Accept": "application/vnd.github.v3+json"
         }
         self.base_url = 'https://api.github.com'
+    
 
     def get_github_token(self, user):
         try:
@@ -45,20 +47,16 @@ class GithubAPI:
     
     def close_issue(self, owner, repo_name, issue_number):
         url = f'{self.base_url}/repos/{owner}/{repo_name}/issues/{issue_number}'
-        print(url)
         body = {
             "state": "closed"
         }
-        response = requests.patch(url, body, headers=self.headers)
-        # print(response.headers)
+        response = requests.patch(url, json=body, headers=self.headers)
         return response.json()
     
     def open_issue(self, owner, repo_name, issue_number):
         url = f'{self.base_url}/repos/{owner}/{repo_name}/issues/{issue_number}'
-        print(url)
         body = {
             "state": "open"
         }
-        response = requests.patch(url, body, headers=self.headers)
-        print(response.headers)
+        response = requests.patch(url, json=body, headers=self.headers)
         return response.json()

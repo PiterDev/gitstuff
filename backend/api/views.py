@@ -17,7 +17,7 @@ class UserInfoView(APIView):
         data = github.get_user()
         return Response(data, status=data.get('status', 200))
 
-class RepoView(APIView):
+class ReposView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -32,9 +32,10 @@ class RepoIssuesView(APIView):
     def get(self, request):
         github = GithubAPI(request.user)
         repo_name = request.query_params.get('repo_name', None)
-        if repo_name is None:
+        repo_owner = request.query_params.get('repo_owner', None)
+        if repo_name is None or repo_name is None:
             return Response(status=400)
-        data = github.get_repo_issues(request.user.username, repo_name)
+        data = github.get_repo_issues(repo_owner, repo_name)
         return Response(data)
 
 # class CloseIssueView(APIView):
@@ -68,4 +69,5 @@ class IssueUpdateView(APIView):
              response = github.open_issue(owner, repo, id)
         else:
             response = github.close_issue(owner, repo, id)
+        success = response.get('state') == state
         return Response(response, status=200 if success else 500)
