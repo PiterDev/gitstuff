@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: django_app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: sveltekit_app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "80:3000"
+    depends_on:
+      - backend
