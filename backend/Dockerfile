@@ -11,8 +11,8 @@ ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=backend.config.settings
 
 RUN uv venv
-RUN uv sync --frozen
+RUN uv sync --frozen --link-mode copy
 
 EXPOSE 8000
 # Two workers for the sake of the 1-cored VM
-CMD ["uv", "run", "gunicorn", "--workers", "2", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]
+CMD ["uv", "run", "gunicorn", "--workers", "2", "--bind", "0.0.0.0:8000", "backend.config.wsgi:application"]
