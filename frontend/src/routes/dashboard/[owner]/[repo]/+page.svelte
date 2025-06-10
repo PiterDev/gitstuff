@@ -11,7 +11,7 @@
         console.log(issue);
         taskArray.push({
             name: issue.title,
-            done: false,
+            done: issue.state === "closed" ? true : false,
             description: issue.body,
             url: issue.html_url,
             owner: issue.user.login,

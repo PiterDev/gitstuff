@@ -41,9 +41,14 @@ class GithubAPI:
         return response.json()
     
     def get_repo_issues(self, owner, repo_name):
-        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues'
+        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues?state=all'
         response = requests.get(url, headers=self.headers)
-        return response.json()
+        all_json = response.json()
+
+        only_issues = [issue for issue in all_json if "pull_request" not in issue]
+
+
+        return only_issues 
     
     def close_issue(self, owner, repo_name, issue_number):
         url = f'{self.base_url}/repos/{owner}/{repo_name}/issues/{issue_number}'

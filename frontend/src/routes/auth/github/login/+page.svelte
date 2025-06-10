@@ -6,7 +6,7 @@
     const githubAuthUrl = 'https://github.com/login/oauth/authorize';
     const clientId = PUBLIC_GH_CLIENT_ID;
     const scope = 'user repo';
-    const redirectUri = 'https://gitstuff.piterdev.me/auth/github/callback';
+    const redirectUri = 'http://localhost:5173/auth/github/callback' //'https://gitstuff.piterdev.me/auth/github/callback';
 
     function githubRedirect() {
         const url = `${githubAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;

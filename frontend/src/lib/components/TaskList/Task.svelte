@@ -7,9 +7,13 @@
 	import CompletedCircle from "./CompletedCircle.svelte";
 
     let { name, done, url, owner, repo, issue_id, issue_state }: Task = $props();
+    console.log(done);
     let doneState = $state(done);
+    let onTimeout = false;
 
     async function onCheck() {
+        if (onTimeout) return;
+
         doneState = true;
         // Wait for server to update
         const response = await fetch(`/api/issue/update`, {
@@ -22,9 +26,14 @@
             })
         });
 
+        onTimeout = true;
+        setTimeout(() => {onTimeout = false}, 5000)
+
     }
 
     async function onUncheck() {
+        if (onTimeout) return;
+
         doneState = false;
         // Wait for server to update
         const response = await fetch(`/api/issue/update`, {
@@ -37,6 +46,8 @@
             })
         });
 
+        onTimeout = true;
+        setTimeout(() => {onTimeout = false}, 5000)
     }
 
 </script>

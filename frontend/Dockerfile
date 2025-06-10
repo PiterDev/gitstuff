@@ -1,14 +1,26 @@
-# Bun currently has an issue where it hangs docker builds
-FROM oven/bun:latest
+# Use official Node.js image
+FROM node:20-alpine
 
+# Set working directory
 WORKDIR /app
 
-COPY bun.lockb package.json ./
-RUN bun install
+# Install pnpm globally
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
+# Copy lockfile and package manifest first for better caching
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install
+
+# Copy rest of the project
 COPY . .
-# This is a hack to get around bun hanging on docker builds
-RUN timeout --foreground 10s bun --bun run build || echo "Bun timed out but probably built successfully"
 
+# Build the SvelteKit app
+RUN pnpm build
+
+# Expose the port (change if you're using a different adapter)
 EXPOSE 3000
-CMD ["bun", "run", "build/index.js"]
+
+# Start the app (adjust if using an adapter like node or vercel)
+CMD ["pnpm", "preview", "--port", "3000"]
