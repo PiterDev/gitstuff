@@ -7,7 +7,6 @@
 	import CompletedCircle from "./CompletedCircle.svelte";
 
     let { name, done, url, owner, repo, issue_id, issue_state }: Task = $props();
-    console.log(done);
     let doneState = $state(done);
     let onTimeout = false;
 

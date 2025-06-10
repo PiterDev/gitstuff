@@ -65,3 +65,12 @@ class GithubAPI:
         }
         response = requests.patch(url, json=body, headers=self.headers)
         return response.json()
+
+    def create_issue(self, owner, repo_name, title, body=""):
+        url = f'{self.base_url}/repos/{owner}/{repo_name}/issues'
+        payload = {
+            "title": title,
+            "body": body
+        }
+        response = requests.post(url, json=payload, headers=self.headers)
+        return response.json()
